@@ -1,0 +1,21 @@
+:root {
+  --color-gray-primary: #5f5c5c;
+  --color-gray-secondary: #777575;
+  --color-gray-light: #949191;
+  --color-active: #ea9a07;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  box-sizing: border-box;
+  font-family: monospace;
+  font-size: 16px;
+  background-color: rgba(231, 229, 227, 0.859);
+  padding: 20px;
+}
