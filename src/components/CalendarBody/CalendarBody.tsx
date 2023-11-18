@@ -22,8 +22,6 @@ const createCurrentMonth = () => {
 export default function CalendarBody() {
   const [monthForView, setMonthForView] = useState<Moment[]>([]);
 
-  console.log("monthForView =>", monthForView);
-
   useEffect(() => {
     const currentMonth = createCurrentMonth();
     setMonthForView(currentMonth);
