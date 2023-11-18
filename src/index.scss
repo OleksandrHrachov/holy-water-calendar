@@ -1,8 +1,13 @@
 :root {
+  --color-body: rgba(231, 229, 227, 0.8);
   --color-gray-primary: #5f5c5c;
   --color-gray-secondary: #777575;
-  --color-gray-light: #949191;
-  --color-active: #ea9a07;
+  --color-gray-light-04: rgba(148, 145, 145, 0.4);
+  --color-active-06: rgba(234, 154, 7, 0.6);
+  --color-active-02: rgba(234, 154, 7, 0.2);
+  --color-green-06: rgba(34, 136, 34, 0.6);
+  --color-green-1: rgba(34, 136, 34, 1);
+  --color-red:  #cc0000;
 }
 
 * {
@@ -16,6 +21,6 @@ body {
   box-sizing: border-box;
   font-family: monospace;
   font-size: 16px;
-  background-color: rgba(231, 229, 227, 0.859);
+  background-color: var(--color-body);
   padding: 20px;
 }
