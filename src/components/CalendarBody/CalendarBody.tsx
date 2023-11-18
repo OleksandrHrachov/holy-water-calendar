@@ -3,35 +3,36 @@ import "./CalendarBody.scss";
 import moment, { Moment } from "moment";
 import { CalendarDay } from "../CalendarDay";
 
-const createCurrentMonth = () => {
-  moment.updateLocale("en", { week: { dow: 1 } });
-  const startListDay = moment().startOf("month").startOf("week");
-  const endListDay = moment().endOf("month").endOf("week");
+interface IProps {
+  firstDay: Moment;
+  lastDay: Moment;
+}
 
-  const carrentMonth = [];
-  const day = startListDay.clone();
+const createCurrentMonth = (firstDay: Moment, lastDay: Moment) => {
+  const currentMonth = [];
+  const day = firstDay.clone();
 
-  while (!day.isAfter(endListDay)) {
-    carrentMonth.push(day.clone());
+  while (!day.isAfter(lastDay)) {
+    currentMonth.push(day.clone());
     day.add(1, "day");
   }
 
-  return carrentMonth;
+  return currentMonth;
 };
 
-export default function CalendarBody() {
+export default function CalendarBody({ firstDay, lastDay }: IProps) {
   const [monthForView, setMonthForView] = useState<Moment[]>([]);
 
   useEffect(() => {
-    const currentMonth = createCurrentMonth();
+    const currentMonth = createCurrentMonth(firstDay, lastDay);
     setMonthForView(currentMonth);
-  }, []);
+  }, [firstDay, lastDay]);
 
   return (
     <div className="calendar__body">
       {monthForView.map((day) => {
-        return <CalendarDay key={day.format('DD-MMM-YYYY')} day={day}/>
+        return <CalendarDay key={day.format("DD-MMM-YYYY")} day={day} />;
       })}
-      </div>
+    </div>
   );
 }

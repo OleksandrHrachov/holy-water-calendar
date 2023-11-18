@@ -1,0 +1,22 @@
+.date-picker {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  &__month {
+    display: flex;
+    align-items: center;
+    &-button {
+      cursor: pointer;
+      padding: 4px;
+      border: none;
+      background-color: transparent;
+    }
+
+    &-selected {
+      text-align: center;
+      margin: 0 6px;
+      width: 150px;
+    }
+  }
+}
