@@ -1,8 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodoState, ITodo } from "./types";
+import { getCalendarState, saveCalendarState } from "./helpers";
+
+const initState = getCalendarState();
 
 const initialState: ITodoState = {
-  todos: [],
+  todos: initState,
 };
 
 const todoSlice = createSlice({
@@ -38,6 +41,8 @@ const todoSlice = createSlice({
           }],
         });
       }
+
+      saveCalendarState(state.todos)
     },
   },
 });
