@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import "./DatePicker.scss";
+import calendarIcon from '../../icons/calendar.svg';
 import moment from "moment";
 
 interface IProps {
@@ -40,7 +41,9 @@ export const DatePicker: FC<IProps> = ({ prevMonth, nextMonth, month, year }) =>
           &gt;
         </button>
       </div>
-      <div className="date-picker__date">calendar</div>
+      <div className="date-picker__date">
+        <img src={calendarIcon} alt="calendar" />
+      </div>
     </div>
   );
 };

@@ -26,13 +26,24 @@ function App() {
   };
 
   const prevMonth = () => {
-    const nextMonth = currentDate.clone().subtract(1, "month");
-    setCurrentDate(nextMonth);
+    if (currentDate.month() === 0) {
+      const nextMonth = currentDate.clone().month(11);
+      setCurrentDate(nextMonth);
+    } else {
+      const nextMonth = currentDate.clone().subtract(1, "month");
+      setCurrentDate(nextMonth);
+
+    }
   };
 
   const nextMonth = () => {
-    const nextMonth = currentDate.clone().add(1, "month");
-    setCurrentDate(nextMonth);
+    if (currentDate.month() === 11) {
+      const nextMonth = currentDate.clone().month(0);
+      setCurrentDate(nextMonth);
+    } else {
+      const nextMonth = currentDate.clone().add(1, "month");
+      setCurrentDate(nextMonth);
+    }
   };
 
   useEffect(() => {
