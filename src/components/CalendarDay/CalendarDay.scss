@@ -17,12 +17,18 @@
     padding: 2px 6px;
     border-radius: 2px;
     font-weight: 600;
+
+    &-number {
+      &--first {
+        color: var(--color-red);
+      }
+    }
   }
 
   &--current {
     background-color: var(--color-active-06);
   }
-  
+
   &:hover {
     background-color: var(--color-active-02);
   }
