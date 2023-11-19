@@ -4,11 +4,16 @@ import { CalendarBody } from "./components/CalendarBody";
 import { CalendarHeader } from "./components/CalendarHeader";
 import { CreateTodoModal } from "./components/TodoModal";
 import moment from "moment";
+import { useAppSelector } from "./hooks";
 
 function App() {
+  const modalsState = useAppSelector((state) => state.modal);
+
   moment.updateLocale("en", { week: { dow: 1 } });
 
-  const [showModal, setShowModal] = useState(false);
+  const [showCreateModal, setShowCreateModal] = useState(
+    modalsState.isCreateModalOpen
+  );
   const [currentDate, setCurrentDate] = useState(moment());
   const [startListDay, setStartListDay] = useState(
     moment().startOf("month").startOf("week")
@@ -17,13 +22,9 @@ function App() {
     moment().endOf("month").endOf("week")
   );
 
-  const openModal = () => {
-    setShowModal(true);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    setShowCreateModal(modalsState.isCreateModalOpen);
+  }, [modalsState.isCreateModalOpen]);
 
   const prevMonth = () => {
     if (currentDate.month() === 0) {
@@ -32,7 +33,6 @@ function App() {
     } else {
       const nextMonth = currentDate.clone().subtract(1, "month");
       setCurrentDate(nextMonth);
-
     }
   };
 
@@ -56,7 +56,6 @@ function App() {
       <div className="calendar__inner">
         <div className="calendar__header-wrapper">
           <CalendarHeader
-            openModal={openModal}
             prevMonth={prevMonth}
             nextMonth={nextMonth}
             month={currentDate.format("MMMM")}
@@ -67,7 +66,7 @@ function App() {
           <CalendarBody firstDay={startListDay} lastDay={endListDay} />
         </div>
       </div>
-      {showModal && <CreateTodoModal closeModal={closeModal} />}
+      {showCreateModal && <CreateTodoModal />}
     </div>
   );
 }

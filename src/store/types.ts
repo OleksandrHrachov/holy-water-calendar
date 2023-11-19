@@ -15,3 +15,11 @@ export interface ITodoItem {
 export interface ITodoState {
   todos: ITodoItem[];
 }
+
+export const CREATE_MODAL = 'createModal';
+
+export type MODAL_TYPE = typeof CREATE_MODAL;
+
+export interface IModalState {
+  isCreateModalOpen: boolean;
+}

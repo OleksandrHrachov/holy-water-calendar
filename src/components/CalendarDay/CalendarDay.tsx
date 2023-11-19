@@ -14,11 +14,7 @@ export default function CalendarDay({ day }: Day) {
   const todosForDayObj = allTodos.filter((dayTodo) =>
     dayTodo.hasOwnProperty(dayKey)
   );
-
-  console.log("todosForDay => ", todosForDayObj);
-
   const todosForDayItems = todosForDayObj[0] && todosForDayObj[0][dayKey];
-  console.log("todosForDayItems => ", todosForDayObj && todosForDayItems);
 
   const date = day.format("D");
   const dayName = day.format("ddd");

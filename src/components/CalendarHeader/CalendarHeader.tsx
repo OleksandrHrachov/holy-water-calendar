@@ -1,9 +1,11 @@
 import React, { FC } from "react";
 import "./CalendarHeader.scss";
 import { DatePicker } from "../DatePicker";
+import { useAppDispatch } from "../../hooks";
+import { openModal } from "../../store/modalSlice";
+import { CREATE_MODAL } from "../../store/types";
 
 interface IProps {
-  openModal: () => void;
   prevMonth: () => void;
   nextMonth: () => void;
   month: string;
@@ -11,15 +13,21 @@ interface IProps {
 }
 
 export const CalendarHeader: FC<IProps> = ({
-  openModal,
   prevMonth,
   nextMonth,
   month,
   year,
 }) => {
+  const dispatch = useAppDispatch();
+  
   return (
     <div className="calendar__header">
-      <div onClick={openModal} className="calendar__header-open-modal-button">
+      <div
+        onClick={() => {
+          dispatch(openModal(CREATE_MODAL));
+        }}
+        className="calendar__header-open-modal-button"
+      >
         <div className="calendar__header-open-modal-button-item-1"></div>
         <div className="calendar__header-open-modal-button-item-2"></div>
       </div>

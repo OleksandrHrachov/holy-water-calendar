@@ -3,12 +3,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import "./CreateTodoModal.scss";
 import { useAppDispatch } from "../../hooks";
 import { addToDo } from "../../store/todoSlice";
+import { closeModal } from '../../store/modalSlice';
 import moment from "moment";
 import { v4 as uuid } from 'uuid';
-
-interface IProps {
-  closeModal: () => void;
-}
+import { CREATE_MODAL } from "../../store/types";
 
 interface IForm {
   title: string;
@@ -17,7 +15,7 @@ interface IForm {
   time: string;
 }
 
-export const CreateTodoModal: FC<IProps> = ({ closeModal }) => {
+export const CreateTodoModal = () => {
   const dispatch = useAppDispatch();
 
   const {
@@ -44,14 +42,14 @@ export const CreateTodoModal: FC<IProps> = ({ closeModal }) => {
       })
     );
     reset();
-    closeModal();
+    dispatch(closeModal(CREATE_MODAL))
   };
 
   const onCloseModal = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     event.stopPropagation();
-    closeModal();
+    dispatch(closeModal(CREATE_MODAL))
   };
 
   return (
