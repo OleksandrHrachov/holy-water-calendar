@@ -1,8 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IModalState, MODAL_TYPE, CREATE_MODAL } from "./types";
+import {
+  IModalState,
+  MODAL_TYPE,
+  CREATE_MODAL,
+  LIST_TODOS_MODAL,
+} from "./types";
 
 const initialState: IModalState = {
   isCreateModalOpen: false,
+  isListTodosModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -15,6 +21,10 @@ const modalsSlice = createSlice({
           state.isCreateModalOpen = true;
           break;
 
+        case LIST_TODOS_MODAL:
+          state.isListTodosModalOpen = true;
+          break;
+
         default:
           break;
       }
@@ -23,6 +33,10 @@ const modalsSlice = createSlice({
       switch (action.payload) {
         case CREATE_MODAL:
           state.isCreateModalOpen = false;
+          break;
+          
+        case LIST_TODOS_MODAL:
+          state.isListTodosModalOpen = false;
           break;
 
         default:

@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import { CalendarBody } from "./components/CalendarBody";
 import { CalendarHeader } from "./components/CalendarHeader";
-import { CreateTodoModal } from "./components/TodoModal";
+import { CreateTodoModal } from "./components/CreateTodoModal";
 import moment from "moment";
 import { useAppSelector } from "./hooks";
+import { ListTodosModal } from "./components/ListTodosModal";
 
 function App() {
   const modalsState = useAppSelector((state) => state.modal);
@@ -14,6 +15,10 @@ function App() {
   const [showCreateModal, setShowCreateModal] = useState(
     modalsState.isCreateModalOpen
   );
+  const [showListTodosModal, setShowListTodosModal] = useState(
+    modalsState.isListTodosModalOpen
+  );
+
   const [currentDate, setCurrentDate] = useState(moment());
   const [startListDay, setStartListDay] = useState(
     moment().startOf("month").startOf("week")
@@ -25,6 +30,10 @@ function App() {
   useEffect(() => {
     setShowCreateModal(modalsState.isCreateModalOpen);
   }, [modalsState.isCreateModalOpen]);
+
+  useEffect(() => {
+    setShowListTodosModal(modalsState.isListTodosModalOpen);
+  }, [modalsState.isListTodosModalOpen]);
 
   const prevMonth = () => {
     if (currentDate.month() === 0) {
@@ -67,6 +76,7 @@ function App() {
         </div>
       </div>
       {showCreateModal && <CreateTodoModal />}
+      {showListTodosModal && <ListTodosModal />}
     </div>
   );
 }

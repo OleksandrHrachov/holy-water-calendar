@@ -16,10 +16,18 @@ export interface ITodoState {
   todos: ITodoItem[];
 }
 
-export const CREATE_MODAL = 'createModal';
+export const CREATE_MODAL = "createModal";
+export const LIST_TODOS_MODAL = "listTodosModal";
 
-export type MODAL_TYPE = typeof CREATE_MODAL;
+export type MODAL_TYPE = typeof CREATE_MODAL | typeof LIST_TODOS_MODAL;
 
 export interface IModalState {
   isCreateModalOpen: boolean;
+  isListTodosModalOpen: boolean;
+}
+
+export interface ISelectedDayState {
+  selectedDay: string | null;
+  selectedDayTodos: ITodo[];
+  selectedTodoId?: string | null;
 }

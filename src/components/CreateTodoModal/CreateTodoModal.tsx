@@ -30,7 +30,6 @@ export const CreateTodoModal = () => {
 
   const submitSuccess: SubmitHandler<IForm> = (data) => {
     data.date = data.date.split("-").reverse().join("-");
-    console.log("data =>", { [data.date]: data });
     dispatch(
       addToDo({
         id: uuid(),

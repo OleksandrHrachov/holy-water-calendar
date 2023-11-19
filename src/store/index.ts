@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import todoReducer from "./todoSlice";
-import modalReducer from './modalSlice';
+import modalReducer from "./modalSlice";
+import selectedDayReducer from "./selectedDaySlice";
 
 const store = configureStore({
   reducer: {
     todos: todoReducer,
     modal: modalReducer,
+    selectedDay: selectedDayReducer,
   },
 });
 

@@ -43,6 +43,9 @@
     &-item {
       margin-bottom: 4px;
       overflow-x: hidden;
+      border-radius: 2px;
+      background-color: var(--color-gray-light-04);
+      padding: 0 2px;
     }
   }
 
