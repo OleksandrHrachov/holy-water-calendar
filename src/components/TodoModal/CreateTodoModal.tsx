@@ -1,6 +1,10 @@
 import React, { FC } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import "./TodoModal.scss";
+import "./CreateTodoModal.scss";
+import { useAppDispatch } from "../../hooks";
+import { addToDo } from "../../store/todoSlice";
+import moment from "moment";
+import { v4 as uuid } from 'uuid';
 
 interface IProps {
   closeModal: () => void;
@@ -13,7 +17,9 @@ interface IForm {
   time: string;
 }
 
-export const TodoModal: FC<IProps> = ({ closeModal }) => {
+export const CreateTodoModal: FC<IProps> = ({ closeModal }) => {
+  const dispatch = useAppDispatch();
+
   const {
     register,
     handleSubmit,
@@ -25,9 +31,18 @@ export const TodoModal: FC<IProps> = ({ closeModal }) => {
   });
 
   const submitSuccess: SubmitHandler<IForm> = (data) => {
-
-    data.date = data.date.split('-').reverse().join('-');
-    console.log('data =>', {[data.date]: data});
+    data.date = data.date.split("-").reverse().join("-");
+    console.log("data =>", { [data.date]: data });
+    dispatch(
+      addToDo({
+        id: uuid(),
+        title: data.title,
+        description: data.description || null,
+        date: data.date,
+        time: data.time || null,
+        createdAt: moment().format('DD-MM-YYYY HH:mm')
+      })
+    );
     reset();
     closeModal();
   };

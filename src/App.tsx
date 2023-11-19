@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./App.scss";
 import { CalendarBody } from "./components/CalendarBody";
 import { CalendarHeader } from "./components/CalendarHeader";
-import { TodoModal } from "./components/TodoModal";
+import { CreateTodoModal } from "./components/TodoModal";
 import moment from "moment";
 
 function App() {
@@ -67,7 +67,7 @@ function App() {
           <CalendarBody firstDay={startListDay} lastDay={endListDay} />
         </div>
       </div>
-      {showModal && <TodoModal closeModal={closeModal} />}
+      {showModal && <CreateTodoModal closeModal={closeModal} />}
     </div>
   );
 }
