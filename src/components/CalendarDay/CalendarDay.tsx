@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import moment, { Moment } from "moment";
 import "./CalendarDay.scss";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { openModal } from "../../store/modalSlice";
 import { setSelectedDay } from "../../store/selectedDaySlice";
-import { LIST_TODOS_MODAL } from "../../store/types";
+import { ITodoItem, LIST_TODOS_MODAL } from "../../store/types";
 
 interface Day {
   day: Moment;
@@ -12,11 +12,20 @@ interface Day {
 
 export default function CalendarDay({ day }: Day) {
   const allTodos = useAppSelector((state) => state.todos.todos);
+  const [todos, setTodos] = useState<ITodoItem[] | []>([]);
+
   const dispatch = useAppDispatch();
   const dayKey = day.format("DD-MM-YYYY");
-  const todosForDayObj = allTodos.filter((dayTodo) =>
+  const todosForDayObj = todos.filter((dayTodo) =>
     dayTodo.hasOwnProperty(dayKey)
   );
+
+  useEffect(() => {
+    if (allTodos) {
+      setTodos(allTodos);
+    }
+  }, [allTodos]);
+  
   const todosForDayItems = todosForDayObj[0] && todosForDayObj[0][dayKey];
 
   const date = day.format("D");
