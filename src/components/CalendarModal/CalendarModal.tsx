@@ -36,7 +36,7 @@ export const CalendarModal = () => {
   };
 
   const handlerMonthClick = (month: string) => {
-    dispatch(setSelectedtDate(`1-${month}-${selectedYear.format("YYYY")}`));
+    dispatch(setSelectedtDate(moment(`1-${month}-${selectedYear.format("YYYY")}`).format()));
     dispatch(closeModal(CALENDAR_MODAL));
   };
 
