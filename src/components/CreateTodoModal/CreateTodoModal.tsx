@@ -7,6 +7,7 @@ import { closeModal } from '../../store/modalSlice';
 import moment from "moment";
 import { v4 as uuid } from 'uuid';
 import { CREATE_MODAL } from "../../store/types";
+import { MAX_YEAR, MIN_YEAR } from "../../const";
 
 interface IForm {
   title: string;
@@ -21,9 +22,10 @@ export const CreateTodoModal = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, touchedFields },
     reset,
     watch,
+    getValues,
   } = useForm<IForm>({
     defaultValues: { title: "", description: "" },
   });
@@ -37,7 +39,7 @@ export const CreateTodoModal = () => {
         description: data.description || null,
         date: data.date,
         time: data.time || null,
-        createdAt: moment().format('DD-MM-YYYY HH:mm')
+        createdAt: moment().format('DD-MM-YYYY HH:mm'),
       })
     );
     reset();
@@ -64,10 +66,13 @@ export const CreateTodoModal = () => {
         <h3 className="modal__body-title">Add new TODO</h3>
         <form id="addTodo" onSubmit={handleSubmit(submitSuccess)}>
           <label className="modal__todo-title-label">
-            <p>Todo</p>
+            <p>Todo*</p>
             <input
               className={`modal__todo-title-text ${
-                errors.title ? "required" : ""
+                errors.title ||
+                (touchedFields.title && getValues("title").length === 0)
+                  ? "required"
+                  : ""
               }`}
               type="text"
               {...register("title", { required: true })}
@@ -83,15 +88,18 @@ export const CreateTodoModal = () => {
           </label>
           <div className="modal__todo-period">
             <label className="modal__todo-period-date-lable">
-              <p>Date</p>
+              <p>Date*</p>
               <input
                 className={`modal__todo-period-date-value ${
-                  errors.date ? "required" : ""
+                  errors.date ||
+                  (touchedFields.date && getValues("date").length === 0)
+                    ? "required"
+                    : ""
                 }`}
                 type="date"
                 {...register("date", { required: true })}
-                min="2018-01-01"
-                max="2025-12-31"
+                min={`${MIN_YEAR}-01-01`}
+                max={`${MAX_YEAR}-12-31`}
               />
             </label>
 
@@ -105,6 +113,7 @@ export const CreateTodoModal = () => {
             </label>
           </div>
           <div className="modal__todo-button-container">
+            <p>* required</p>
             <button
               className="modal__todo-save-button"
               type="submit"

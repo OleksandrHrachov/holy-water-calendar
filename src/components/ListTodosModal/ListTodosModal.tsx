@@ -8,6 +8,7 @@ import { TodoItem } from "../TodoItem";
 export const ListTodosModal = () => {
   const dispatch = useAppDispatch();
   const dayData = useAppSelector((state) => state.selectedDay);
+  
   return (
     <div
       className="list-modal"
@@ -30,7 +31,7 @@ export const ListTodosModal = () => {
               {dayData.selectedDayTodos.map((todo) => {
                 return (
                   <li key={todo.id} className="list-modal__todo-item">
-                    <TodoItem title={todo.title} />
+                    <TodoItem todo={todo} />
                   </li>
                 );
               })}

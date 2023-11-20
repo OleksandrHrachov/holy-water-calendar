@@ -4,19 +4,26 @@ import { CalendarBody } from "./components/CalendarBody";
 import { CalendarHeader } from "./components/CalendarHeader";
 import { CreateTodoModal } from "./components/CreateTodoModal";
 import moment from "moment";
-import { useAppSelector } from "./hooks";
+import { useAppSelector, useAppDispatch } from "./hooks";
 import { ListTodosModal } from "./components/ListTodosModal";
+import { EditTodoModal } from "./components/EditTodoModal";
+import { getCalendarState } from "./store/helpers";
+import { initState } from "./store/todoSlice";
 
 function App() {
-  const modalsState = useAppSelector((state) => state.modal);
+  const { modal, todos } = useAppSelector((state) => state);
+  const dispatch = useAppDispatch();
 
   moment.updateLocale("en", { week: { dow: 1 } });
 
   const [showCreateModal, setShowCreateModal] = useState(
-    modalsState.isCreateModalOpen
+    modal.isCreateModalOpen
   );
   const [showListTodosModal, setShowListTodosModal] = useState(
-    modalsState.isListTodosModalOpen
+    modal.isListTodosModalOpen
+  );
+  const [showEditTodoModal, setShowEditTodoModal] = useState(
+    modal.isEditTodoModalOpen
   );
 
   const [currentDate, setCurrentDate] = useState(moment());
@@ -28,12 +35,23 @@ function App() {
   );
 
   useEffect(() => {
-    setShowCreateModal(modalsState.isCreateModalOpen);
-  }, [modalsState.isCreateModalOpen]);
+    if (todos.todos.length === 0) {
+      const state = getCalendarState();
+      dispatch(initState(state));
+    }
+  }, []);
 
   useEffect(() => {
-    setShowListTodosModal(modalsState.isListTodosModalOpen);
-  }, [modalsState.isListTodosModalOpen]);
+    setShowCreateModal(modal.isCreateModalOpen);
+  }, [modal.isCreateModalOpen]);
+
+  useEffect(() => {
+    setShowListTodosModal(modal.isListTodosModalOpen);
+  }, [modal.isListTodosModalOpen]);
+
+  useEffect(() => {
+    setShowEditTodoModal(modal.isEditTodoModalOpen);
+  }, [modal.isEditTodoModalOpen]);
 
   const prevMonth = () => {
     if (currentDate.month() === 0) {
@@ -77,6 +95,7 @@ function App() {
       </div>
       {showCreateModal && <CreateTodoModal />}
       {showListTodosModal && <ListTodosModal />}
+      {showEditTodoModal && <EditTodoModal />}
     </div>
   );
 }

@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ISelectedDayState } from "./types";
+import { ISelectedDayState, ITodo } from "./types";
 
 const initialState: ISelectedDayState = {
   selectedDay: null,
   selectedDayTodos: [],
-  selectedTodoId: null,
+  selectedTodo: null,
 };
 
 const selectedDaySlice = createSlice({
@@ -18,10 +18,10 @@ const selectedDaySlice = createSlice({
     resetSelectedDay(state) {
       state.selectedDay = null;
       state.selectedDayTodos = [];
-      state.selectedTodoId = null;
+      state.selectedTodo = null;
     },
-    setSelectedTodoId(state, action: PayloadAction<string>) {
-      state.selectedTodoId = action.payload;
+    setSelectedTodoId(state, action: PayloadAction<ITodo>) {
+      state.selectedTodo = action.payload;
     },
   },
 });
