@@ -1,15 +1,13 @@
 import {
   LOCAL_STORAGE_TODO_KEY,
-  LOCAL_STORAGE_DATE_KEY,
-  BASE_URL_TODOS,
-  BASE_URL_DATE,
+  LOCAL_STORAGE_DATE_KEY
 } from "../const";
 import { ITodoItem } from "./types";
 
 export const saveCalendarState = async (state: ITodoItem[]) => {
-  if (BASE_URL_TODOS) {
+  if (process.env.REACT_APP_BASE_URL_TODOS) {
     try {
-      await fetch(BASE_URL_TODOS, {
+      await fetch(process.env.REACT_APP_BASE_URL_TODOS, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -20,14 +18,15 @@ export const saveCalendarState = async (state: ITodoItem[]) => {
       return error;
     }
   } else {
-    localStorage.setItem(LOCAL_STORAGE_TODO_KEY, JSON.stringify(state));
+    const key = process.env.REACT_APP_LOCAL_STORAGE_TODO_KEY ?? LOCAL_STORAGE_TODO_KEY;
+    localStorage.setItem(key, JSON.stringify(state));
   }
 };
 
 export const saveDateFilterState = async (state: string | null) => {
-  if (BASE_URL_DATE) {
+  if (process.env.REACT_APP_BASE_URL_DATE) {
     try {
-      await fetch(BASE_URL_DATE, {
+      await fetch(process.env.REACT_APP_BASE_URL_DATE, {
         method: "POST",
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -38,20 +37,22 @@ export const saveDateFilterState = async (state: string | null) => {
       return error;
     }
   } else {
-    localStorage.setItem(LOCAL_STORAGE_DATE_KEY, JSON.stringify(state));
+    const key = process.env.REACT_APP_LOCAL_STORAGE_DATE_KEY ?? LOCAL_STORAGE_DATE_KEY;
+    localStorage.setItem(key, JSON.stringify(state));
   }
 };
 
 export const getCalendarState = async () => {
-  if (BASE_URL_TODOS) {
+  if (process.env.REACT_APP_BASE_URL_TODOS) {
     try {
-      const response = await fetch(BASE_URL_TODOS);
+      const response = await fetch(process.env.REACT_APP_BASE_URL_TODOS);
       return response;
     } catch (error) {
       return error;
     }
   } else {
-    const state = localStorage.getItem(LOCAL_STORAGE_TODO_KEY);
+    const key = process.env.REACT_APP_LOCAL_STORAGE_TODO_KEY ?? LOCAL_STORAGE_TODO_KEY;
+    const state = localStorage.getItem(key);
     if (state) {
       return JSON.parse(state);
     } else {
@@ -61,15 +62,16 @@ export const getCalendarState = async () => {
 };
 
 export const getDateFilterState = async () => {
-  if (BASE_URL_DATE) {
+  if (process.env.REACT_APP_BASE_URL_DATE) {
     try {
-      const response = await fetch(BASE_URL_DATE);
+      const response = await fetch(process.env.REACT_APP_BASE_URL_DATE);
       return response;
     } catch (error) {
       return error;
     }
   } else {
-    const state = localStorage.getItem(LOCAL_STORAGE_DATE_KEY);
+    const key = process.env.REACT_APP_LOCAL_STORAGE_DATE_KEY ?? LOCAL_STORAGE_DATE_KEY;
+    const state = localStorage.getItem(key);
     if (state) {
       return JSON.parse(state);
     } else {
