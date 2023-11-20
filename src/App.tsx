@@ -7,9 +7,10 @@ import moment from "moment";
 import { useAppSelector, useAppDispatch } from "./hooks";
 import { ListTodosModal } from "./components/ListTodosModal";
 import { EditTodoModal } from "./components/EditTodoModal";
-import { getCalendarState } from "./store/helpers";
+import { getCalendarState  } from "./store/helpers";
 import { initState } from "./store/todoSlice";
 import { BackgroundOverlay } from "./components/BackgroundOverlay";
+import {setCurrentDate as setCurrentDateState, setSelectedtDate} from './store/dateSlice';
 
 function App() {
   const { modal, todos, date } = useAppSelector((state) => state);
@@ -31,7 +32,9 @@ function App() {
     modal.isCalendarModalOpen
   );
 
-  const [currentDate, setCurrentDate] = useState(moment(date.currentDate));
+  const usefulDate = date.selectedDate ? date.selectedDate : date.currentDate;
+
+  const [currentDate, setCurrentDate] = useState(moment(usefulDate));
   const [startListDay, setStartListDay] = useState(
     moment().startOf("month").startOf("week")
   );
@@ -51,6 +54,11 @@ function App() {
       dispatch(initState(state));
     }
   }, []);
+
+  useEffect(() => {
+    dispatch(setCurrentDateState(currentDate.format()));
+    dispatch(setSelectedtDate(currentDate.format()))
+  }, [currentDate])
 
   useEffect(() => {
     setShowCreateModal(modal.isCreateModalOpen);
