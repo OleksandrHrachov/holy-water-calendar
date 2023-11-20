@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.9be0ace1.css",
-    "main.js": "/static/js/main.c7d7c9ec.js",
-    "static/js/787.ca1dd967.chunk.js": "/static/js/787.ca1dd967.chunk.js",
-    "static/media/calendar.svg": "/static/media/calendar.b63444ad7c387e6970c765b4ffa7bdf5.svg",
-    "index.html": "/index.html",
-    "main.9be0ace1.css.map": "/static/css/main.9be0ace1.css.map",
-    "main.c7d7c9ec.js.map": "/static/js/main.c7d7c9ec.js.map",
-    "787.ca1dd967.chunk.js.map": "/static/js/787.ca1dd967.chunk.js.map"
+    "main.css": "/holy-water-calendar/static/css/main.9be0ace1.css",
+    "main.js": "/holy-water-calendar/static/js/main.2086ea51.js",
+    "static/js/787.ca1dd967.chunk.js": "/holy-water-calendar/static/js/787.ca1dd967.chunk.js",
+    "static/media/calendar.svg": "/holy-water-calendar/static/media/calendar.b63444ad7c387e6970c765b4ffa7bdf5.svg",
+    "index.html": "/holy-water-calendar/index.html",
+    "main.9be0ace1.css.map": "/holy-water-calendar/static/css/main.9be0ace1.css.map",
+    "main.2086ea51.js.map": "/holy-water-calendar/static/js/main.2086ea51.js.map",
+    "787.ca1dd967.chunk.js.map": "/holy-water-calendar/static/js/787.ca1dd967.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.9be0ace1.css",
-    "static/js/main.c7d7c9ec.js"
+    "static/js/main.2086ea51.js"
   ]
 }
