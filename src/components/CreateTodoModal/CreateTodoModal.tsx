@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import "./CreateTodoModal.scss";
 import { useAppDispatch } from "../../hooks";

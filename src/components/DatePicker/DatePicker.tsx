@@ -1,7 +1,10 @@
 import React, { FC, useState, useEffect } from "react";
 import "./DatePicker.scss";
-import calendarIcon from '../../icons/calendar.svg';
-import moment from "moment";
+import calendarIcon from "../../icons/calendar.svg";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { openModal, closeModal } from "../../store/modalSlice";
+import { CALENDAR_MODAL } from "../../store/types";
+import { CalendarModal } from "../CalendarModal";
 
 interface IProps {
   prevMonth: () => void;
@@ -10,9 +13,32 @@ interface IProps {
   year: string;
 }
 
-export const DatePicker: FC<IProps> = ({ prevMonth, nextMonth, month, year }) => {
-  const [selectedMonth, setSelectedMonth] = useState<string>(month);
-  const [selectedYear, setSelectedYear] = useState<string>(year);
+export const DatePicker: FC<IProps> = ({
+  prevMonth,
+  nextMonth,
+  month,
+  year,
+}) => {
+  const [selectedMonth, setSelectedMonth] = useState<string>(month ?? "");
+  const [selectedYear, setSelectedYear] = useState<string>(year ?? "");
+
+  const { isCalendarModalOpen } = useAppSelector((state) => state.modal);
+  const dispatch = useAppDispatch();
+
+  const [showCalendarModal, setShowCalendarModal] =
+    useState(isCalendarModalOpen);
+
+  useEffect(() => {
+    setShowCalendarModal(isCalendarModalOpen);
+  }, [isCalendarModalOpen]);
+
+  const toggle = () => {
+    if (isCalendarModalOpen) {
+      dispatch(closeModal(CALENDAR_MODAL));
+    } else {
+      dispatch(openModal(CALENDAR_MODAL));
+    }
+  };
 
   useEffect(() => {
     setSelectedMonth(month);
@@ -20,7 +46,7 @@ export const DatePicker: FC<IProps> = ({ prevMonth, nextMonth, month, year }) =>
 
   useEffect(() => {
     setSelectedYear(year);
-  }, [year])
+  }, [year]);
 
   return (
     <div className="date-picker">
@@ -32,7 +58,9 @@ export const DatePicker: FC<IProps> = ({ prevMonth, nextMonth, month, year }) =>
         >
           &lt;
         </button>
-        <div className="date-picker__month-selected">{selectedMonth} {selectedYear}</div>
+        <div className="date-picker__month-selected">
+          {selectedMonth} {selectedYear}
+        </div>
         <button
           className="date-picker__month-button"
           type="button"
@@ -41,9 +69,10 @@ export const DatePicker: FC<IProps> = ({ prevMonth, nextMonth, month, year }) =>
           &gt;
         </button>
       </div>
-      <div className="date-picker__date">
-        <img src={calendarIcon} alt="calendar" />
+      <div className={`date-picker__date ${showCalendarModal ? 'date-picker__date--open' : ''}`}>
+        <img onClick={toggle} src={calendarIcon} alt="calendar" />
       </div>
+      {showCalendarModal && <CalendarModal />}
     </div>
   );
 };

@@ -9,9 +9,10 @@ import { ListTodosModal } from "./components/ListTodosModal";
 import { EditTodoModal } from "./components/EditTodoModal";
 import { getCalendarState } from "./store/helpers";
 import { initState } from "./store/todoSlice";
+import { BackgroundOverlay } from "./components/BackgroundOverlay";
 
 function App() {
-  const { modal, todos } = useAppSelector((state) => state);
+  const { modal, todos, date } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
   moment.updateLocale("en", { week: { dow: 1 } });
@@ -26,13 +27,23 @@ function App() {
     modal.isEditTodoModalOpen
   );
 
-  const [currentDate, setCurrentDate] = useState(moment());
+  const [showBackgroundOverlayModal, setShowBackgroundOverlayModal] = useState(
+    modal.isCalendarModalOpen
+  );
+
+  const [currentDate, setCurrentDate] = useState(moment(date.currentDate));
   const [startListDay, setStartListDay] = useState(
     moment().startOf("month").startOf("week")
   );
   const [endListDay, setEndListDay] = useState(
     moment().endOf("month").endOf("week")
   );
+
+  useEffect(() => {
+    if (date.selectedDate) {
+      setCurrentDate(moment(date.selectedDate));
+    }
+  }, [date.selectedDate]);
 
   useEffect(() => {
     if (todos.todos.length === 0) {
@@ -53,29 +64,39 @@ function App() {
     setShowEditTodoModal(modal.isEditTodoModalOpen);
   }, [modal.isEditTodoModalOpen]);
 
+  useEffect(() => {
+    setShowBackgroundOverlayModal(modal.isCalendarModalOpen);
+  }, [modal.isCalendarModalOpen]);
+
   const prevMonth = () => {
-    if (currentDate.month() === 0) {
-      const nextMonth = currentDate.clone().month(11);
-      setCurrentDate(nextMonth);
-    } else {
-      const nextMonth = currentDate.clone().subtract(1, "month");
-      setCurrentDate(nextMonth);
+    if (currentDate) {
+      if (currentDate.month() === 0) {
+        const nextMonth = currentDate.clone().month(11);
+        setCurrentDate(nextMonth);
+      } else {
+        const nextMonth = currentDate.clone().subtract(1, "month");
+        setCurrentDate(nextMonth);
+      }
     }
   };
 
   const nextMonth = () => {
-    if (currentDate.month() === 11) {
-      const nextMonth = currentDate.clone().month(0);
-      setCurrentDate(nextMonth);
-    } else {
-      const nextMonth = currentDate.clone().add(1, "month");
-      setCurrentDate(nextMonth);
+    if (currentDate) {
+      if (currentDate.month() === 11) {
+        const nextMonth = currentDate.clone().month(0);
+        setCurrentDate(nextMonth);
+      } else {
+        const nextMonth = currentDate.clone().add(1, "month");
+        setCurrentDate(nextMonth);
+      }
     }
   };
 
   useEffect(() => {
-    setStartListDay(currentDate.clone().startOf("month").startOf("week"));
-    setEndListDay(currentDate.clone().endOf("month").endOf("week"));
+    if (currentDate) {
+      setStartListDay(currentDate.clone().startOf("month").startOf("week"));
+      setEndListDay(currentDate.clone().endOf("month").endOf("week"));
+    }
   }, [currentDate]);
 
   return (
@@ -96,6 +117,7 @@ function App() {
       {showCreateModal && <CreateTodoModal />}
       {showListTodosModal && <ListTodosModal />}
       {showEditTodoModal && <EditTodoModal />}
+      {showBackgroundOverlayModal && <BackgroundOverlay />}
     </div>
   );
 }
