@@ -14,11 +14,11 @@ export const TodoItem: FC<IProps> = ({ todo }) => {
   const { title} = todo;
   const dispatch = useAppDispatch();
 
-  const handelClick = () => {
+  const handlerClick = () => {
     dispatch(closeModal(LIST_TODOS_MODAL));
     dispatch(openModal(EDIT_TODO_MODAL));
     dispatch(setSelectedTodoId(todo));
   }
 
-  return <div onClick={handelClick}>{title}</div>;
+  return <div onClick={handlerClick}>{title}</div>;
 };

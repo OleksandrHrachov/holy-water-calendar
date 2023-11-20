@@ -5,12 +5,14 @@ import {
   CREATE_MODAL,
   LIST_TODOS_MODAL,
   EDIT_TODO_MODAL,
+  CALENDAR_MODAL,
 } from "./types";
 
 const initialState: IModalState = {
   isCreateModalOpen: false,
   isListTodosModalOpen: false,
   isEditTodoModalOpen: false,
+  isCalendarModalOpen: false,
 };
 
 const modalsSlice = createSlice({
@@ -31,6 +33,10 @@ const modalsSlice = createSlice({
           state.isEditTodoModalOpen = true;
           break;
 
+        case CALENDAR_MODAL:
+          state.isCalendarModalOpen = true;
+          break;
+
         default:
           break;
       }
@@ -47,6 +53,10 @@ const modalsSlice = createSlice({
 
         case EDIT_TODO_MODAL:
           state.isEditTodoModalOpen = false;
+          break;
+
+        case CALENDAR_MODAL:
+          state.isCalendarModalOpen = false;
           break;
 
         default:
