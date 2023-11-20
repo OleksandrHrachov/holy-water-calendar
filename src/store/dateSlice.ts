@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import moment from "moment";
-
-// moment.updateLocale("en", { week: { dow: 1 } });
+import { saveDateFilterState } from "./helpers";
 
 interface IDateState {
   currentDate: string;
@@ -22,6 +21,9 @@ const dateSlice = createSlice({
     },
     setSelectedtDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload;
+      if (action.payload) {
+        saveDateFilterState(action.payload);
+      }
     },
   },
 });

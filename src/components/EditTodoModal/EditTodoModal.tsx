@@ -58,7 +58,6 @@ export const EditTodoModal = () => {
     }
     reset();
     dispatch(closeModal(EDIT_TODO_MODAL));
-    dispatch(openModal(LIST_TODOS_MODAL));
   };
 
   const handleDelete = () => {
@@ -72,7 +71,6 @@ export const EditTodoModal = () => {
     }
     reset();
     dispatch(closeModal(EDIT_TODO_MODAL));
-    dispatch(openModal(LIST_TODOS_MODAL));
   };
 
   const onCloseModal = (

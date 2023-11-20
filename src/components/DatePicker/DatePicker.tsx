@@ -19,8 +19,8 @@ export const DatePicker: FC<IProps> = ({
   month,
   year,
 }) => {
-  const [selectedMonth, setSelectedMonth] = useState<string>(month ?? "");
-  const [selectedYear, setSelectedYear] = useState<string>(year ?? "");
+  const [selectedMonth, setSelectedMonth] = useState<string>(month);
+  const [selectedYear, setSelectedYear] = useState<string>(year);
 
   const { isCalendarModalOpen } = useAppSelector((state) => state.modal);
   const dispatch = useAppDispatch();
