@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import "./App.scss";
 import { CalendarBody } from "./components/CalendarBody";
 import { CalendarHeader } from "./components/CalendarHeader";
@@ -7,7 +7,7 @@ import moment from "moment";
 import { useAppSelector, useAppDispatch } from "./hooks";
 import { ListTodosModal } from "./components/ListTodosModal";
 import { EditTodoModal } from "./components/EditTodoModal";
-import { ApiStorageService } from './services/ApiStorageService';
+import { ApiStorageService } from "./services/ApiStorageService";
 import { initState } from "./store/todoSlice";
 import { BackgroundOverlay } from "./components/BackgroundOverlay";
 import {
@@ -19,23 +19,14 @@ function App() {
   const { modal, date } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
 
-  console.log("RENDER");
-
   moment.updateLocale("en", { week: { dow: 1 } });
 
-  const [showCreateModal, setShowCreateModal] = useState(
-    modal.isCreateModalOpen
-  );
-  const [showListTodosModal, setShowListTodosModal] = useState(
-    modal.isListTodosModalOpen
-  );
-  const [showEditTodoModal, setShowEditTodoModal] = useState(
-    modal.isEditTodoModalOpen
-  );
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showListTodosModal, setShowListTodosModal] = useState(false);
+  const [showEditTodoModal, setShowEditTodoModal] = useState(false);
 
-  const [showBackgroundOverlayModal, setShowBackgroundOverlayModal] = useState(
-    modal.isCalendarModalOpen
-  );
+  const [showBackgroundOverlayModal, setShowBackgroundOverlayModal] =
+    useState(false);
 
   const startData = moment().startOf("month").startOf("week");
   const endDate = moment().endOf("month").endOf("week");
@@ -46,13 +37,6 @@ function App() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    if (date.selectedDate) {
-      console.log('sel-date')
-      setCurrentDate(moment(date.selectedDate).format());
-    }
-  }, [date.selectedDate]);
 
   const getStorageState = async () => {
     setIsLoading(true);
@@ -72,37 +56,44 @@ function App() {
       setError(true);
     }
 
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     getStorageState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    dispatch(setCurrentDateState(currentDate));
-    dispatch(setSelectedtDate(currentDate));
-  }, [currentDate]);
+    if (date.selectedDate) {
+      setCurrentDate(moment(date.selectedDate).format());
+
+      dispatch(setCurrentDateState(date.selectedDate));
+      setStartListDay(
+        moment(date.selectedDate).clone().startOf("month").startOf("week")
+      );
+      setEndListDay(
+        moment(date.selectedDate).clone().endOf("month").endOf("week")
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date.selectedDate]);
+
+  useEffect(() => {
+    if (currentDate) {
+      dispatch(setSelectedtDate(currentDate));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [moment(currentDate).format("DD-MM-YYYY")]);
 
   useEffect(() => {
     setShowCreateModal(modal.isCreateModalOpen);
-  }, [modal.isCreateModalOpen]);
-
-  useEffect(() => {
     setShowListTodosModal(modal.isListTodosModalOpen);
-  }, [modal.isListTodosModalOpen]);
-
-  useEffect(() => {
     setShowEditTodoModal(modal.isEditTodoModalOpen);
-  }, [modal.isEditTodoModalOpen]);
-
-  useEffect(() => {
     setShowBackgroundOverlayModal(modal.isCalendarModalOpen);
-  }, [modal.isCalendarModalOpen]);
+  }, [modal]);
 
-  const prevMonth = () => {
+  const prevMonth = useCallback(() => {
     if (currentDate) {
       if (moment(currentDate).month() === 0) {
         const nextMonth = moment(currentDate).clone().month(11);
@@ -112,9 +103,9 @@ function App() {
         setCurrentDate(nextMonth.format());
       }
     }
-  };
+  }, [currentDate]);
 
-  const nextMonth = () => {
+  const nextMonth = useCallback(() => {
     if (currentDate) {
       if (moment(currentDate).month() === 11) {
         const nextMonth = moment(currentDate).clone().month(0);
@@ -123,15 +114,6 @@ function App() {
         const nextMonth = moment(currentDate).clone().add(1, "month");
         setCurrentDate(nextMonth.format());
       }
-    }
-  };
-
-  useEffect(() => {
-    if (currentDate) {
-      setStartListDay(
-        moment(currentDate).clone().startOf("month").startOf("week")
-      );
-      setEndListDay(moment(currentDate).clone().endOf("month").endOf("week"));
     }
   }, [currentDate]);
 
