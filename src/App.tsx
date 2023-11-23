@@ -18,6 +18,7 @@ import {
 function App() {
   const { modal, date } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+  const apiStorageService = new ApiStorageService();
 
   moment.updateLocale("en", { week: { dow: 1 } });
 
@@ -40,8 +41,8 @@ function App() {
   const getStorageState = async () => {
     setIsLoading(true);
     try {
-      const calendarFilter = await ApiStorageService.getDateFilterState();
-      const state = await ApiStorageService.getCalendarState();
+      const calendarFilter = await apiStorageService.getDateFilterState();
+      const state = await apiStorageService.getCalendarState();
 
       dispatch(initState(state));
       dispatch(setCurrentDateState(calendarFilter));

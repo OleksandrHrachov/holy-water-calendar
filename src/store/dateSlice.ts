@@ -12,6 +12,8 @@ const initialState: IDateState = {
   selectedDate: null,
 };
 
+const apiStorageService = new ApiStorageService();
+
 const dateSlice = createSlice({
   name: "dateSlice",
   initialState,
@@ -22,7 +24,7 @@ const dateSlice = createSlice({
     setSelectedtDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload;
       if (action.payload) {
-        ApiStorageService.saveDateFilterState(action.payload);
+        apiStorageService.saveDateFilterState(action.payload);
       }
     },
   },

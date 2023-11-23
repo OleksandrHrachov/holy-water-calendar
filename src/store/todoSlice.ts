@@ -6,6 +6,8 @@ const initialState: ITodoState = {
   todos: [],
 };
 
+const apiStorageService = new ApiStorageService();
+
 const todoSlice = createSlice({
   name: "todos",
   initialState,
@@ -45,7 +47,7 @@ const todoSlice = createSlice({
         });
       }
 
-      ApiStorageService.saveCalendarState(state.todos);
+      apiStorageService.saveCalendarState(state.todos);
     },
     updateToDo(state, action: PayloadAction<IUpdateData>) {
       const key = action.payload.selectedDay;
@@ -103,7 +105,7 @@ const todoSlice = createSlice({
         });
       }
 
-      ApiStorageService.saveCalendarState(state.todos);
+      apiStorageService.saveCalendarState(state.todos);
     },
     removeToDo(state, action: PayloadAction<IUpdateData>) {
       const key = action.payload.selectedDay;
@@ -124,7 +126,7 @@ const todoSlice = createSlice({
       });
 
       state.todos = filteredCalendarDays;
-      ApiStorageService.saveCalendarState(state.todos);
+      apiStorageService.saveCalendarState(state.todos);
     },
   },
 });
