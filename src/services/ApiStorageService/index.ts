@@ -54,8 +54,8 @@ export class ApiStorageService {
   static async getDateFilterState(): Promise<string> {
     try {
       if (process.env.REACT_APP_BASE_URL_DATE) {
-        const response = await fetch(process.env.REACT_APP_BASE_URL_DATE);
-        return response.json() as Promise<string>;
+        const response = await remoteStorageService.getDateData(process.env.REACT_APP_BASE_URL_DATE);
+        return response;
       } else {
         const key =
           process.env.REACT_APP_LOCAL_STORAGE_DATE_KEY ?? LOCAL_STORAGE_DATE_KEY;
