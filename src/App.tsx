@@ -7,7 +7,7 @@ import moment from "moment";
 import { useAppSelector, useAppDispatch } from "./hooks";
 import { ListTodosModal } from "./components/ListTodosModal";
 import { EditTodoModal } from "./components/EditTodoModal";
-import { getCalendarState, getDateFilterState } from "./store/helpers";
+import { ApiStorageService } from './services/ApiStorageService';
 import { initState } from "./store/todoSlice";
 import { BackgroundOverlay } from "./components/BackgroundOverlay";
 import {
@@ -18,6 +18,8 @@ import {
 function App() {
   const { modal, date } = useAppSelector((state) => state);
   const dispatch = useAppDispatch();
+
+  console.log("RENDER");
 
   moment.updateLocale("en", { week: { dow: 1 } });
 
@@ -35,39 +37,29 @@ function App() {
     modal.isCalendarModalOpen
   );
 
+  const startData = moment().startOf("month").startOf("week");
+  const endDate = moment().endOf("month").endOf("week");
+
   const [currentDate, setCurrentDate] = useState<string>("");
-  const [startListDay, setStartListDay] = useState(
-    moment().startOf("month").startOf("week")
-  );
-  const [endListDay, setEndListDay] = useState(
-    moment().endOf("month").endOf("week")
-  );
+  const [startListDay, setStartListDay] = useState(startData);
+  const [endListDay, setEndListDay] = useState(endDate);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
     if (date.selectedDate) {
+      console.log('sel-date')
       setCurrentDate(moment(date.selectedDate).format());
     }
   }, [date.selectedDate]);
 
   const getStorageState = async () => {
     setIsLoading(true);
-    const calendarFilter = await getDateFilterState();
-    const state = await getCalendarState();
-    if (typeof calendarFilter === "object" && typeof state === "object") {
-      if (calendarFilter.ok && state.ok) {
-        const calendarFilterData = await calendarFilter.json();
-        const stateData = await state.json();
+    try {
+      const calendarFilter = await ApiStorageService.getDateFilterState();
+      const state = await ApiStorageService.getCalendarState();
 
-        dispatch(initState(stateData));
-        dispatch(setCurrentDateState(calendarFilterData));
-        dispatch(setSelectedtDate(calendarFilterData));
-      } else {
-        setError(true);
-      }
-    } else {
       dispatch(initState(state));
       dispatch(setCurrentDateState(calendarFilter));
       dispatch(setSelectedtDate(calendarFilter));
@@ -76,7 +68,10 @@ function App() {
       } else {
         setCurrentDate(moment().format());
       }
+    } catch (error) {
+      setError(true);
     }
+
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);

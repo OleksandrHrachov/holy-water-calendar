@@ -40,6 +40,18 @@ export const CalendarModal = () => {
     dispatch(closeModal(CALENDAR_MODAL));
   };
 
+  const createMonthItem = (monthName: string) => {
+    return (
+      <div
+        key={monthName}
+        className="calendar-modal__months-item"
+        onClick={() => handlerMonthClick(monthName)}
+      >
+        {monthName}
+      </div>
+    );
+  };
+
   return (
     <div className="calendar-modal">
       <div className="calendar-modal__year">
@@ -63,17 +75,7 @@ export const CalendarModal = () => {
       </div>
 
       <div className="calendar-modal__months">
-        {months.map((month) => {
-          return (
-            <div
-              key={month}
-              className="calendar-modal__months-item"
-              onClick={() => handlerMonthClick(month)}
-            >
-              {month}
-            </div>
-          );
-        })}
+        {months.map(createMonthItem)}
       </div>
     </div>
   );

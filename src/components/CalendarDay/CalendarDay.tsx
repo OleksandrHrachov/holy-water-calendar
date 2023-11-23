@@ -4,7 +4,7 @@ import "./CalendarDay.scss";
 import { useAppSelector, useAppDispatch } from "../../hooks";
 import { openModal } from "../../store/modalSlice";
 import { setSelectedDay } from "../../store/selectedDaySlice";
-import { ITodoItem, LIST_TODOS_MODAL } from "../../store/types";
+import { ITodo, ITodoItem, LIST_TODOS_MODAL } from "../../store/types";
 
 interface Day {
   day: Moment;
@@ -43,6 +43,14 @@ export default function CalendarDay({ day }: Day) {
     );
   };
 
+  const createTodoItem = (todoItem: ITodo) => {
+    return (
+      <li key={todoItem.id} className="calendar__day-todo-item">
+        {todoItem.title}
+      </li>
+    );
+  };
+
   return (
     <div
       onClick={handleClickOnDay}
@@ -63,13 +71,7 @@ export default function CalendarDay({ day }: Day) {
 
       {todosForDayItems && todosForDayItems.length > 0 && (
         <ul className="calendar__day-todo-list">
-          {todosForDayItems.map((todo) => {
-            return (
-              <li key={todo.id} className="calendar__day-todo-item">
-                {todo.title}
-              </li>
-            );
-          })}
+          {todosForDayItems.map(createTodoItem)}
         </ul>
       )}
     </div>

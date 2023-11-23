@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import moment from "moment";
-import { saveDateFilterState } from "./helpers";
+import { ApiStorageService } from '../services/ApiStorageService';
 
 interface IDateState {
   currentDate: string;
@@ -22,7 +22,7 @@ const dateSlice = createSlice({
     setSelectedtDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload;
       if (action.payload) {
-        saveDateFilterState(action.payload);
+        ApiStorageService.saveDateFilterState(action.payload);
       }
     },
   },

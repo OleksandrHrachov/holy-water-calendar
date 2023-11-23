@@ -2,12 +2,20 @@ import React from "react";
 import "./ListTodosModal.scss";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { closeModal } from "../../store/modalSlice";
-import { LIST_TODOS_MODAL } from "../../store/types";
+import { ITodo, LIST_TODOS_MODAL } from "../../store/types";
 import { TodoItem } from "../TodoItem";
 
 export const ListTodosModal = () => {
   const dispatch = useAppDispatch();
   const dayData = useAppSelector((state) => state.selectedDay);
+
+  const createTodoItemTitle = (todoItem: ITodo) => {
+    return (
+      <li key={todoItem.id} className="list-modal__todo-item">
+        <TodoItem todo={todoItem} />
+      </li>
+    );
+  };
   
   return (
     <div
@@ -28,13 +36,7 @@ export const ListTodosModal = () => {
         {dayData.selectedDayTodos.length > 0 ? (
           <div className="list-modal__todo-wrapper">
             <ul className="list-modal__todo-list">
-              {dayData.selectedDayTodos.map((todo) => {
-                return (
-                  <li key={todo.id} className="list-modal__todo-item">
-                    <TodoItem todo={todo} />
-                  </li>
-                );
-              })}
+              {dayData.selectedDayTodos.map(createTodoItemTitle)}
             </ul>
           </div>
         ) : (

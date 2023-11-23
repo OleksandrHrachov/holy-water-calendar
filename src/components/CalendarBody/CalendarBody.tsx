@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CalendarBody.scss";
-import moment, { Moment } from "moment";
+import { Moment } from "moment";
 import { CalendarDay } from "../CalendarDay";
 
 interface IProps {
@@ -28,11 +28,13 @@ export default function CalendarBody({ firstDay, lastDay }: IProps) {
     setMonthForView(currentMonth);
   }, [firstDay, lastDay]);
 
+  const createDay = (dayData: Moment) => {
+    return <CalendarDay key={dayData.format("DD-MMM-YYYY")} day={dayData} />;
+  }
+
   return (
     <div className="calendar__body">
-      {monthForView.map((day) => {
-        return <CalendarDay key={day.format("DD-MMM-YYYY")} day={day} />;
-      })}
+      {monthForView.map(createDay)}
     </div>
   );
 }

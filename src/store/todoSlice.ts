@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ITodoState, ITodo, ITodoItem, IUpdateData } from "./types";
-import { saveCalendarState } from "./helpers";
+import { ApiStorageService } from '../services/ApiStorageService';
 
 const initialState: ITodoState = {
   todos: [],
@@ -10,7 +10,7 @@ const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    initState(state, action: PayloadAction<ITodoItem[]>) {
+    initState(state, action: PayloadAction<ITodoItem[] | []>) {
       state.todos = action.payload;
     },
     addToDo(state, action: PayloadAction<ITodo>) {
@@ -45,7 +45,7 @@ const todoSlice = createSlice({
         });
       }
 
-      saveCalendarState(state.todos);
+      ApiStorageService.saveCalendarState(state.todos);
     },
     updateToDo(state, action: PayloadAction<IUpdateData>) {
       const key = action.payload.selectedDay;
@@ -103,7 +103,7 @@ const todoSlice = createSlice({
         });
       }
 
-      saveCalendarState(state.todos);
+      ApiStorageService.saveCalendarState(state.todos);
     },
     removeToDo(state, action: PayloadAction<IUpdateData>) {
       const key = action.payload.selectedDay;
@@ -124,7 +124,7 @@ const todoSlice = createSlice({
       });
 
       state.todos = filteredCalendarDays;
-      saveCalendarState(state.todos);
+      ApiStorageService.saveCalendarState(state.todos);
     },
   },
 });

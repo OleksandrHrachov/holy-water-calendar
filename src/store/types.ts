@@ -26,7 +26,6 @@ export const LIST_TODOS_MODAL = "listTodosModal";
 export const EDIT_TODO_MODAL = "editTodoModal";
 export const CALENDAR_MODAL = "calendarModal";
 
-
 export type MODAL_TYPE =
   | typeof CREATE_MODAL
   | typeof LIST_TODOS_MODAL
