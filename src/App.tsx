@@ -24,7 +24,6 @@ function App() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showListTodosModal, setShowListTodosModal] = useState(false);
   const [showEditTodoModal, setShowEditTodoModal] = useState(false);
-
   const [showBackgroundOverlayModal, setShowBackgroundOverlayModal] =
     useState(false);
 
@@ -87,10 +86,21 @@ function App() {
   }, [moment(currentDate).format("DD-MM-YYYY")]);
 
   useEffect(() => {
-    setShowCreateModal(modal.isCreateModalOpen);
-    setShowListTodosModal(modal.isListTodosModalOpen);
-    setShowEditTodoModal(modal.isEditTodoModalOpen);
-    setShowBackgroundOverlayModal(modal.isCalendarModalOpen);
+    if (modal.isCreateModalOpen !== showCreateModal) {
+      setShowCreateModal(modal.isCreateModalOpen);
+    }
+
+    if (modal.isListTodosModalOpen !== showListTodosModal) {
+      setShowListTodosModal(modal.isListTodosModalOpen);
+    }
+
+    if (modal.isEditTodoModalOpen !== showEditTodoModal) {
+      setShowEditTodoModal(modal.isEditTodoModalOpen);
+    }
+
+    if (modal.isCalendarModalOpen !== showBackgroundOverlayModal) {
+      setShowBackgroundOverlayModal(modal.isCalendarModalOpen);
+    }
   }, [modal]);
 
   const prevMonth = useCallback(() => {
