@@ -22,12 +22,6 @@ function App() {
 
   moment.updateLocale("en", { week: { dow: 1 } });
 
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showListTodosModal, setShowListTodosModal] = useState(false);
-  const [showEditTodoModal, setShowEditTodoModal] = useState(false);
-  const [showBackgroundOverlayModal, setShowBackgroundOverlayModal] =
-    useState(false);
-
   const startData = moment().startOf("month").startOf("week");
   const endDate = moment().endOf("month").endOf("week");
 
@@ -84,25 +78,7 @@ function App() {
       dispatch(setSelectedtDate(currentDate));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [moment(currentDate).format("DD-MM-YYYY")]);
-
-  useEffect(() => {
-    if (modal.isCreateModalOpen !== showCreateModal) {
-      setShowCreateModal(modal.isCreateModalOpen);
-    }
-
-    if (modal.isListTodosModalOpen !== showListTodosModal) {
-      setShowListTodosModal(modal.isListTodosModalOpen);
-    }
-
-    if (modal.isEditTodoModalOpen !== showEditTodoModal) {
-      setShowEditTodoModal(modal.isEditTodoModalOpen);
-    }
-
-    if (modal.isCalendarModalOpen !== showBackgroundOverlayModal) {
-      setShowBackgroundOverlayModal(modal.isCalendarModalOpen);
-    }
-  }, [modal]);
+  }, [currentDate]);
 
   const prevMonth = useCallback(() => {
     if (currentDate) {
@@ -143,10 +119,10 @@ function App() {
           <CalendarBody firstDay={startListDay} lastDay={endListDay} />
         </div>
       </div>
-      {showCreateModal && <CreateTodoModal />}
-      {showListTodosModal && <ListTodosModal />}
-      {showEditTodoModal && <EditTodoModal />}
-      {showBackgroundOverlayModal && <BackgroundOverlay />}
+      {modal.isCreateModalOpen && <CreateTodoModal />}
+      {modal.isListTodosModalOpen && <ListTodosModal />}
+      {modal.isEditTodoModalOpen && <EditTodoModal />}
+      {modal.isCalendarModalOpen && <BackgroundOverlay />}
       {isLoading && (
         <BackgroundOverlay
           color="#777575"
