@@ -1,4 +1,4 @@
-[DEMO](https://oleksandrhrachov.github.io/holy-water-calendar/)
+[DEMO](https://oleksandrhrachov.github.io/online-calendar/)
 
 ### start locally
 - clone the repository

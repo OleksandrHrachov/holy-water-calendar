@@ -1,6 +1,6 @@
 {
   "homepage": "https://oleksandrhrachov.github.io/online-calendar",
-  "name": "holy-water-calendar",
+  "name": "online-calendar",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
